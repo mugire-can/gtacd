@@ -8,6 +8,10 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      ENV_TYPE: ${{ secrets.ENV_TYPE }}
+      FAKE_API_TOKEN: ${{ secrets.FAKE_API_TOKEN }}
+      CUSTOM_MESSAGE: "Hello from GTACD pipeline"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,3 +21,10 @@ jobs:
 
       - name: Display index.html content
         run: cat app/index.html
+
+      - name: Display secrets and environment variables
+        run: |
+          echo "Custom (non-secret) env variable: $CUSTOM_MESSAGE"
+          echo "GitHub predefined variable RUNNER_OS: $RUNNER_OS"
+          echo "ENV_TYPE secret value: $ENV_TYPE"
+          echo "FAKE_API_TOKEN secret value: $FAKE_API_TOKEN"
